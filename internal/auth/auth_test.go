@@ -1,14 +1,16 @@
 package auth
+
 import (
-	"testing"
 	"net/http"
+	"testing"
 )
+
 func TestGetAPIKey(t *testing.T) {
 	tests := []struct {
-		name			string
-		inputHeaders	http.Header
-		expectedKey		string
-		expectedError	error
+		name          string
+		inputHeaders  http.Header
+		expectedKey   string
+		expectedError error
 	}{
 		{
 			name: "Happy-path",
@@ -27,22 +29,21 @@ func TestGetAPIKey(t *testing.T) {
 			expectedError: ErrNoAuthHeaderIncluded,
 		},
 		{
-			name: "No Header",
-			inputHeaders: http.Header{},
+			name:          "No Header",
+			inputHeaders:  http.Header{},
 			expectedKey:   "",
 			expectedError: ErrNoAuthHeaderIncluded,
 		},
 	}
-
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := GetAPIKey(tt.inputHeaders)
 			if (err != nil) != (tt.expectedError != nil) {
 				t.Errorf("error: %v, wantErr: %v", err, tt.expectedError)
-				return			
+				return
 			}
-			if err == nil && got != tt.expectedKey{
+			if err == nil && got != tt.expectedKey {
 				t.Errorf("GetAPIKey() = %v, expected: %v", got, tt.expectedKey)
 			}
 		})
