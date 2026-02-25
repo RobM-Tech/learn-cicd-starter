@@ -21,6 +21,12 @@ jobs:
       - name: Run Tests
         run: go test -cover ./...
 
+      - name: Install gosec
+        run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+      - name: GoSec
+        run: gosec ./... 
+
   style:
     name: Style
     runs-on: ubuntu-latest
@@ -36,3 +42,11 @@ jobs:
 
       - name: Check Formatting
         run: test -z $(go fmt ./...)
+
+      - name: Install staticcheck
+        run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+      - name: Static Check
+        uses: dominikh/staticcheck-action@v1
+        with:
+          version: "latest"
